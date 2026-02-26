@@ -55,7 +55,7 @@ export default function Home()
   const handleResurrect = async (id: string) =>
   {
     if (!solanaWallet.connected) {
-      alert("Demo Note: Solana wallet not connected. Proceeding with visual simulation anyway!");
+      console.log("Demo Note: Solana wallet not connected. Proceeding with visual simulation anyway!");
     }
 
     setSelectedAsset(id);
@@ -235,7 +235,7 @@ export default function Home()
       </div>
 
       {/* Bridge Modal */}
-      <Dialog open={bridging}>
+      <Dialog open={bridging} onOpenChange={setBridging}>
         <DialogContent className="sm:max-w-md bg-zinc-950 border-zinc-800 text-zinc-100">
           <DialogHeader>
             <DialogTitle className="text-2xl text-center mb-2">Sunrise Migration</DialogTitle>
