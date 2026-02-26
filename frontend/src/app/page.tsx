@@ -55,8 +55,7 @@ export default function Home()
   const handleResurrect = async (id: string) =>
   {
     if (!solanaWallet.connected) {
-      alert("Please connect Solana wallet first to receive the resurrected asset!");
-      return;
+      alert("Demo Note: Solana wallet not connected. Proceeding with visual simulation anyway!");
     }
 
     setSelectedAsset(id);
