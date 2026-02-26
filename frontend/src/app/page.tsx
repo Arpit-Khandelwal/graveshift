@@ -278,7 +278,10 @@ export default function Home()
                   <h3 className="text-emerald-300 font-bold text-lg">Resurrected Soul #001</h3>
                   <p className="text-emerald-400/70 text-sm">KYD Ticket Minted</p>
                 </div>
-                <Button className="bg-white text-black hover:bg-zinc-200 font-bold w-full rounded-full">
+                <Button
+                  onClick={() => window.open(`https://x.com/intent/tweet?text=${encodeURIComponent("I just resurrected my dead Ethereum assets into the Solana Afterlife using GraveShift! ☠️🌅\n\nRevive your own graveyard and mint a KYD Ticket:\nhttps://frontend-rouge-nine-x2ff5arx1n.vercel.app\n\n@solana #GraveyardHackathon")}`, "_blank")}
+                  className="bg-white text-black hover:bg-zinc-200 font-bold w-full rounded-full"
+                >
                   Share Blink ☠️→🌅
                 </Button>
               </div>
