@@ -123,13 +123,23 @@ export default function Home()
           </CardHeader>
           <CardContent>
             {!isConnected ? (
-              <Button
-                variant="outline"
-                className="w-full bg-blue-950/20 border-blue-900/50 hover:bg-blue-900/40 text-blue-300"
-                onClick={() => connect({ connector: connectors[0] })}
-              >
-                Connect Ethereum Wallet
-              </Button>
+              <div className="space-y-3">
+                {connectors.map((connector) => (
+                  <Button
+                    key={connector.uid}
+                    variant="outline"
+                    className="w-full bg-blue-950/20 border-blue-900/50 hover:bg-blue-900/40 text-blue-300"
+                    onClick={() => connect({ connector })}
+                  >
+                    Connect {connector.name}
+                  </Button>
+                ))}
+                {connectors.length === 0 && (
+                  <div className="text-center text-sm text-blue-300/60 py-4">
+                    No Ethereum wallet found. Please install MetaMask or similar.
+                  </div>
+                )}
+              </div>
             ) : (
               <div className="space-y-4">
                 <div className="flex items-center justify-between text-sm bg-zinc-900 p-3 rounded-lg border border-zinc-800">

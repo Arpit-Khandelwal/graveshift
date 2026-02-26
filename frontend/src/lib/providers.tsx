@@ -12,11 +12,13 @@ import "@solana/wallet-adapter-react-ui/styles.css";
 // Wagmi (Ethereum)
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { mainnet } from "wagmi/chains";
+import { injected } from "wagmi/connectors";
 
 const queryClient = new QueryClient();
 
 const wagmiConfig = createConfig({
     chains: [mainnet],
+    connectors: [injected()],
     transports: {
         [mainnet.id]: http(),
     },
