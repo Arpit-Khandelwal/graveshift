@@ -29,6 +29,7 @@ export default function Home()
 
   const [scanning, setScanning] = useState(false);
   const [assets, setAssets] = useState<typeof MOCK_DEAD_ASSETS>([]);
+  const [mounted, setMounted] = useState(false);
 
   // Bridge State
   const [selectedAsset, setSelectedAsset] = useState<string | null>(null);
@@ -39,7 +40,12 @@ export default function Home()
 
   useEffect(() =>
   {
-    if (isConnected && address) {
+    setMounted(true);
+  }, []);
+
+  useEffect(() =>
+  {
+    if (mounted && isConnected && address) {
       setScanning(true);
       // Mock scanning delay
       setTimeout(() =>
@@ -54,6 +60,8 @@ export default function Home()
 
   const handleResurrect = async (id: string) =>
   {
+    console.log("handleResurrect triggered with id:", id);
+
     if (!solanaWallet.connected) {
       console.log("Demo Note: Solana wallet not connected. Proceeding with visual simulation anyway!");
     }
@@ -108,10 +116,64 @@ export default function Home()
         </p>
       </div>
 
+      {/* How it Works Section */}
+      <div className="w-full mb-20">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-zinc-100 flex items-center justify-center gap-3">
+          <Pickaxe className="w-8 h-8 text-emerald-500" /> How It Works
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-6 relative">
+          {/* Connecting lines for desktop */}
+          <div className="hidden md:block absolute top-[45%] left-1/6 right-1/6 h-0.5 bg-gradient-to-r from-blue-900/50 via-purple-900/50 to-emerald-900/50 -z-10 w-2/3 mx-auto" />
+
+          <Card className="bg-zinc-900/80 border-zinc-800/80 backdrop-blur shadow-xl hover:border-blue-900/50 transition-colors">
+            <CardHeader className="text-center pb-2">
+              <div className="mx-auto w-16 h-16 bg-blue-950/40 border border-blue-900/30 rounded-2xl flex items-center justify-center mb-4 shadow-[0_0_15px_rgba(29,78,216,0.15)]">
+                <span className="text-3xl text-blue-400">⟠</span>
+              </div>
+              <CardTitle className="text-xl text-zinc-100">1. Scan Ethereum</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-sm text-zinc-400">
+                Connect your wallet to scan the graveyard for abandoned tokens, rugged NFTs, and expired POAPs.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-zinc-900/80 border-zinc-800/80 backdrop-blur shadow-xl hover:border-purple-900/50 transition-colors">
+            <CardHeader className="text-center pb-2">
+              <div className="mx-auto w-16 h-16 bg-purple-950/40 border border-purple-900/30 rounded-2xl flex items-center justify-center mb-4 shadow-[0_0_15px_rgba(147,51,234,0.15)]">
+                <RefreshCw className="w-8 h-8 text-purple-400" />
+              </div>
+              <CardTitle className="text-xl text-zinc-100">2. Bridge Soul</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-sm text-zinc-400">
+                Pass the asset's soul through Wormhole via Sunrise. The old body is burned, the essence travels across.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-zinc-900/80 border-zinc-800/80 backdrop-blur shadow-xl hover:border-emerald-900/50 transition-colors">
+            <CardHeader className="text-center pb-2">
+              <div className="mx-auto w-16 h-16 bg-emerald-950/40 border border-emerald-900/30 rounded-2xl flex items-center justify-center mb-4 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                <span className="text-3xl text-emerald-400">◎</span>
+              </div>
+              <CardTitle className="text-xl text-zinc-100">3. Resurrect</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-sm text-zinc-400">
+                Reborn on Solana! Claim your new dynamic cNFT or compressed token, ready for a new life.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
       <div className="grid md:grid-cols-2 gap-8 w-full mb-12">
         {/* Ethereum Section */}
         <Card className="bg-zinc-950 border-zinc-900 shadow-2xl relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-transparent opacity-50" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-transparent opacity-50 pointer-events-none" />
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-zinc-300">
               <span className="text-blue-400">⟠</span> Ethereum Graveyard
@@ -121,7 +183,9 @@ export default function Home()
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {!isConnected ? (
+            {!mounted ? (
+              <div className="flex justify-center py-8 opacity-50"><RefreshCw className="w-6 h-6 animate-spin text-zinc-500" /></div>
+            ) : !isConnected ? (
               <div className="space-y-3">
                 {connectors.map((connector) => (
                   <Button
